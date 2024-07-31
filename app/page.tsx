@@ -17,7 +17,7 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <Image
-              src="/api/placeholder/600/400"
+              src="/logo.png"
               alt="Shipping illustration"
               width={600}
               height={400}
