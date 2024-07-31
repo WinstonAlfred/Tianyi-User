@@ -1,16 +1,7 @@
 import { prisma } from "../prisma";
+import type { Ship } from "@prisma/client";
 
-export async function getShip() {
-    try {
-        const ship = await prisma.ship.findMany();
-        return ship;
-    } catch (error) {
-        console.error('Error fetching ships', error);
-        throw error;
-    }
-}
-
-export async function getShipById (id: string) {
+export async function getShipById (id: string): Promise<Ship | null> {
     try {
         const ship = await prisma.ship.findUnique({
             where:{ id },

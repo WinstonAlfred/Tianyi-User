@@ -1,22 +1,24 @@
-// DetailsTable.tsx
-import React from 'react';
-import { getDetails } from '@/lib/get/getDetail';
-import ClientRow from './clientRow';
+import React from "react";
+import { Detail } from "@prisma/client";
+import ClientRow from "./clientRow";
 
-interface Detail {
-  id: string;
-  Loading: string[];
-  Unloading: string[];
-  Daily_activities: string[];
+interface Props {
+  details: Detail[];
+  error: string | null;
 }
 
-const DetailsTable: React.FC = async () => {
-  const details: Detail[] = await getDetails();
+const DetailsTable: React.FC<Props> = ({ details, error }) => {
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
 
-  return (  
+  if (!details || details.length === 0) {
+    return <div>No details available.</div>;
+  }
+
+  return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
-      <div className="p-4 border-b border-gray-200">
-      </div>
+      <div className="p-4 border-b border-gray-200"></div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
