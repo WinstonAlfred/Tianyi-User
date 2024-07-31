@@ -1,36 +1,35 @@
-import { Detail } from '@prisma/client';
+// DetailsTable.tsx
 import React from 'react';
-import ClientRow from './clientRow'; // Assuming ClientRow is in the same directory
+import { getDetails } from '@/lib/get/getDetail';
+import ClientRow from './clientRow';
 
-async function getDetailData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/details`, { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error('Failed to fetch detail data');
-  }
-  return res.json();
+interface Detail {
+  id: string;
+  Loading: string[];
+  Unloading: string[];
+  Daily_activities: string[];
 }
 
-const DetailsTable = async () => {
-  const details = await getDetailData();
+const DetailsTable: React.FC = async () => {
+  const details: Detail[] = await getDetails();
 
   return (  
-    <div>
-      <div className="mb-4">
+    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="p-4 border-b border-gray-200">
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full text-xs md:text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 md:text-sm">
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th className="py-2 px-2 md:py-3 md:px-4">#</th>
-              <th className="py-2 px-2 md:py-3 md:px-4">Detail ID</th>
-              <th className="py-2 px-2 md:py-3 md:px-4">Loading</th>
-              <th className="py-2 px-2 md:py-3 md:px-4">Unloading</th>
-              <th className="py-2 px-2 md:py-3 md:px-4">Daily Activities</th>
-              <th className="py-2 px-2 md:py-3 md:px-4">Actions</th>
+              <th className="py-3 px-4">#</th>
+              <th className="py-3 px-4">Detail ID</th>
+              <th className="py-3 px-4">Loading</th>
+              <th className="py-3 px-4">Unloading</th>
+              <th className="py-3 px-4">Daily Activities</th>
             </tr>
           </thead>
           <tbody>
-            {details.map((detail: Detail, index: number) => (
+            {details.map((detail, index) => (
               <ClientRow key={detail.id} detail={detail} index={index} />
             ))}
           </tbody>

@@ -1,26 +1,23 @@
-// lib/get/getDetails.ts
+import { prisma } from "../prisma";
+
 export async function getDetails() {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/details`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch details');
-      }
-      return response.json();
+        const details = await prisma.detail.findMany();
+        return details;
     } catch (error) {
-      console.error('Error fetching details:', error);
-      throw error;
+        console.error('Error fetching details', error);
+        throw error;
     }
-  }
-  
-  export async function getDetailsById(id: string) {
+}
+
+export async function getDetailsById (id: string) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/details/${id}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch detail with ID ${id}`);
-      }
-      return response.json();
+        const details = await prisma.detail.findUnique({
+            where:{ id },
+            });
+            return details;
     } catch (error) {
-      console.error(`Error fetching detail with ID ${id}:`, error);
-      throw error;
+        console.error('Error fetching Details with ID ${id}:', error);
+        throw error;
     }
-  }
+}

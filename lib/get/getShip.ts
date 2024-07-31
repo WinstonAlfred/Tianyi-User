@@ -1,26 +1,23 @@
-// lib/get/getShip.ts
+import { prisma } from "../prisma";
+
 export async function getShip() {
     try {
-      const response = await fetch('/api/ship');
-      if (!response.ok) {
-        throw new Error('Failed to fetch ships');
-      }
-      return response.json();
+        const ship = await prisma.ship.findMany();
+        return ship;
     } catch (error) {
-      console.error('Error fetching ships:', error);
-      throw error;
+        console.error('Error fetching ships', error);
+        throw error;
     }
-  }
-  
-  export async function getShipById(id: string) {
+}
+
+export async function getShipById (id: string) {
     try {
-      const response = await fetch(`/api/ship/${id}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch ship with ID ${id}`);
-      }
-      return response.json();
+        const ship = await prisma.ship.findUnique({
+            where:{ id },
+            });
+            return ship;
     } catch (error) {
-      console.error(`Error fetching ship with ID ${id}:`, error);
-      throw error;
+        console.error('Error fetching Ships with ID ${id}:', error);
+        throw error;
     }
-  }
+}
