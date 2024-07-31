@@ -1,8 +1,16 @@
+import { Ship } from '@prisma/client';
 import React from 'react';
-import { getShip } from '@/lib/get/getShip';
+
+async function getShipData() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ship`, { cache: 'no-store' });
+  if (!res.ok) {
+    throw new Error('Failed to fetch ship data');
+  }
+  return res.json();
+}
 
 const ShipTable = async () => {
-  const ship = await getShip();
+  const ships = await getShipData();
 
   return (  
     <div>
@@ -17,7 +25,7 @@ const ShipTable = async () => {
             </tr>
           </thead>
           <tbody>
-          {ship.map((ship, index) => (
+          {ships.map((ship: Ship, index: number) => (
               <tr key={ship.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-2 px-2 md:py-3 md:px-4 font-medium text-gray-900">
                   {index + 1}
