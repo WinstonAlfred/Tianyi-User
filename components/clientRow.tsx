@@ -48,27 +48,31 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
   return (
     <>
       <tr className="bg-white border-b hover:bg-gray-50 transition duration-150 ease-in-out">
-        <td className="py-4 px-4 font-medium text-gray-900">
+        <td className="py-4 px-4 font-medium text-gray-900 align-top">
           {index + 1}
         </td>
-        <td className="py-4 px-4 font-medium text-gray-900">
+        <td className="py-4 px-4 font-medium text-gray-900 align-top">
           {detail.id}
         </td>
-        <td className="py-4 px-4">
+        <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Loading, 'Loading')}
         </td>
-        <td className="py-4 px-4">
+        <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Unloading, 'Unloading')}
         </td>
-        <td className="py-4 px-4">
+        <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
+        </td>
+        <td className="py-4 px-4 align-top">
+          <div className="flex justify-center gap-2">
+          </div>
         </td>
       </tr>
       <tr>
-        <td colSpan={6} className="py-2 px-4 text-center">
+        <td colSpan={6} className="py-2 px-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-blue-500 hover:text-blue-700 text-sm flex items-center justify-center w-full"
+            className="text-blue-500 hover:text-blue-700 text-sm flex items-center"
           >
             {isExpanded ? (
               <>

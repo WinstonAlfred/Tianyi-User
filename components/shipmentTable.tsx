@@ -14,6 +14,7 @@ const ShipmentTable = async () => {
             <tr>
               <th className="py-3 px-4">#</th>
               <th className="py-3 px-4">Shipment ID</th>
+              <th className="py-3 px-4">Status</th>
               <th className="py-3 px-4">Shipment from</th>
               <th className="py-3 px-4">Shipment destination</th>
               <th className="py-3 px-4">Products</th>
@@ -29,6 +30,9 @@ const ShipmentTable = async () => {
                   {shipment.id}
                 </td>
                 <td className="py-3 px-4">
+                  {shipment.Status}
+                </td>
+                <td className="py-3 px-4">
                   {shipment.Ship_from}
                 </td>
                 <td className="py-3 px-4">
@@ -37,11 +41,14 @@ const ShipmentTable = async () => {
                 <td className="py-3 px-4">
                   <ul className="list-none p-0 m-0">
                     {shipment.Product.map((product, idx) => (
-                      <li key={idx} className={`p-2 rounded-md ${idx % 2 === 0 ? 'bg-blue-50' : 'bg-green-50'}`}>
-                        <span className="font-medium text-gray-800">{product}</span>
-                        <span className="ml-2 text-sm text-gray-600">
-                          ({shipment.Capacity[idx]} tons)
-                        </span>
+                      <li key={idx} className={`p-2 rounded-md ${idx % 2 === 0 ? 'bg-blue-50' : 'bg-green-50'} mb-2`}>
+                        <div className="font-medium text-gray-800">{product}</div>
+                        <div className="text-sm text-gray-600">
+                          Capacity: {shipment.Capacity[idx]} tons
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Description: {shipment.Description?.[idx] || 'No description provided'}
+                        </div>
                       </li>
                     ))}
                   </ul>

@@ -7,7 +7,6 @@ const ShipTable = async () => {
   return (  
     <div>
       <div className="mb-4">
-
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm text-left text-gray-500">
@@ -25,7 +24,7 @@ const ShipTable = async () => {
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   {ship.id}
-                </td>
+                </td>   
               </tr>
             ))}
           </tbody>
