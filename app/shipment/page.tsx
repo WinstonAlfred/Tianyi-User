@@ -3,6 +3,10 @@ import ShipmentTable from '@/components/shipmentTable';
 import { prisma } from "@/lib/prisma"
 import type { Shipment } from '@prisma/client'
 
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 async function getShipments(): Promise<{ shipments: Shipment[]; error: string | null }> {
   try {
     const shipments = await prisma.shipment.findMany();

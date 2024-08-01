@@ -3,6 +3,11 @@ import ShipTable from '@/components/shipTable'
 import { prisma } from "@/lib/prisma"
 import type { Ship } from '@prisma/client'
 
+
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 async function getShips(): Promise<{ ships: Ship[] | null; error: string | null }> {
   try {
     const ships = await prisma.ship.findMany();
