@@ -1,5 +1,6 @@
 import React from "react";
 import { Shipment } from "@prisma/client";
+import Link from "next/link";
 
 interface Props {
   shipments: Shipment[];
@@ -28,6 +29,7 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
               <th className="py-3 px-4">Shipment from</th>
               <th className="py-3 px-4">Shipment destination</th>
               <th className="py-3 px-4">Products</th>
+              <th className="py-3 px-4">Details</th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +68,11 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                       </li>
                     ))}
                   </ul>
+                </td>
+                <td className="py-3 px-4">
+                  <Link href={`/details/${shipment.id}`} className="text-blue-600 hover:underline">
+                    View Shipment Details
+                  </Link>
                 </td>
               </tr>
             ))}

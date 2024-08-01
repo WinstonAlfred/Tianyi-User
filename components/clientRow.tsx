@@ -2,13 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-
-interface Detail {
-  id: string;
-  Loading: string[];
-  Unloading: string[];
-  Daily_activities: string[];
-}
+import type { Detail } from '@prisma/client';
 
 type ActivityType = 'Loading' | 'Unloading' | 'Daily Activities';
 
@@ -63,13 +57,9 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
         <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
         </td>
-        <td className="py-4 px-4 align-top">
-          <div className="flex justify-center gap-2">
-          </div>
-        </td>
       </tr>
       <tr>
-        <td colSpan={6} className="py-2 px-4">
+        <td colSpan={5} className="py-2 px-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-blue-500 hover:text-blue-700 text-sm flex items-center"

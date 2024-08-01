@@ -1,14 +1,16 @@
 import { prisma } from "../prisma";
 import type { Detail } from '@prisma/client';
 
-export async function getDetailsById(id: string): Promise<Detail | null> {
+export async function getDetailById(id: string): Promise<Detail | null> {
   try {
-    const details = await prisma.detail.findUnique({
+    console.log(`Fetching detail with ID: ${id}`);
+    const detail = await prisma.detail.findUnique({
       where: { id },
     });
-    return details;
+    console.log('Fetched detail:', detail);
+    return detail;
   } catch (error) {
-    console.error(`Error fetching Details with ID ${id}:`, error);
+    console.error(`Error fetching Detail with ID ${id}:`, error);
     throw error;
   }
 }

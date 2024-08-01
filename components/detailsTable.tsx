@@ -18,7 +18,6 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
-      <div className="p-4 border-b border-gray-200"></div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
