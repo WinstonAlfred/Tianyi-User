@@ -4,7 +4,7 @@ import { Ship, BarChart2, Globe } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8 sm:py-16">
         {/* Hero Section */}
         <div className="text-center mb-12 sm:mb-20">
@@ -16,16 +16,10 @@ export default function Home() {
           </p>
           <div className="mt-8 space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center">
             <Link 
-              href="/demo" 
+              href="/ship" 
               className="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 sm:px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-blue-800 transition duration-300 shadow-lg"
             >
-              Request a Demo
-            </Link>
-            <Link 
-              href="/learn-more" 
-              className="inline-block bg-white text-blue-600 px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300 shadow-lg border border-blue-200"
-            >
-              Learn More
+              Take a Look at Our Ships
             </Link>
           </div>
         </div>

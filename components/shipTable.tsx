@@ -1,12 +1,17 @@
+'use client'
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import type { Ship } from '@prisma/client';
 
 interface Props {
   ships: Ship[] | null;
-  error: string | null;  // Changed from string | undefined to string | null
+  error: string | null;
 }
 
 const ShipTable: React.FC<Props> = ({ ships, error }) => {
+  const router = useRouter();
+
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
@@ -14,6 +19,10 @@ const ShipTable: React.FC<Props> = ({ ships, error }) => {
   if (!ships) {
     return <div>Loading...</div>;
   }
+
+  const handleViewShipments = (shipId: string) => {
+    router.push(`/ship/${shipId}`);
+  };
 
   return (
     <div>
@@ -24,6 +33,7 @@ const ShipTable: React.FC<Props> = ({ ships, error }) => {
             <tr>
               <th className="py-2 px-2 md:py-3 md:px-4">#</th>
               <th className="py-2 px-2 md:py-3 md:px-4">Ship Name</th>
+              <th className="py-2 px-2 md:py-3 md:px-4">Shipments</th>
             </tr>
           </thead>
           <tbody>
@@ -34,6 +44,14 @@ const ShipTable: React.FC<Props> = ({ ships, error }) => {
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   {ship.id}
+                </td>
+                <td className="py-2 px-2 md:py-3 md:px-4">
+                  <button
+                    onClick={() => handleViewShipments(ship.id)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    View shipments made by {ship.id}
+                  </button>
                 </td>
               </tr>
             ))}
