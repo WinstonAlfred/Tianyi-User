@@ -11,7 +11,9 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const ships = await prisma.ship.findMany();
+  const ships = await prisma.ship.findMany({
+    take: 100, // Limit to the most recent 100 ships
+  });
   return ships.map((ship) => ({
     id: ship.id,
   }));
@@ -44,3 +46,6 @@ export default async function ShipDetailsPage({ params }: { params: { id: string
 
   return <ShipDetailsClient ship={ship} shipments={shipments} error={error} />;
 }
+
+// Add ISR configuration
+export const revalidate = 60; // Revalidate every 60 seconds
