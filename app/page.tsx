@@ -42,7 +42,7 @@ export default function Home() {
               Effortless Shipping Management
             </h2>
             <p className="text-base sm:text-lg text-gray-600">
-              Experience unparalleled control over your shipping operations with Tianyi's intuitive platform. Our solution provides:
+            Experience unparalleled control over your shipping operations with Tianyi&apos;s intuitive platform. Our solution provides:
             </p>
             <ul className="space-y-3">
               <li className="flex items-center space-x-3">
@@ -99,7 +99,7 @@ export default function Home() {
             Ready to Transform Your Shipping Operations?
           </h2>
           <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8">
-            Join thousands of companies already benefiting from Tianyi's powerful platform.
+          oin thousands of companies already benefiting from Tianyi&apos;s powerful platform.
           </p>
           <Link 
             href="/contact" 
