@@ -18,7 +18,6 @@ export default async function SpecificShipmentPage({ params }: { params: { id: s
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Shipment Details</h1>
       <ShipmentTable shipments={shipment ? [shipment] : []} error={error} />
     </div>
   );

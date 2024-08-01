@@ -18,6 +18,7 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
 
   return (
     <div>
+      <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT TABLE</div>
       <div className="mb-4"></div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500 border-collapse">

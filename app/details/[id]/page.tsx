@@ -1,27 +1,24 @@
 import React from 'react';
-import { prisma } from '@/lib/prisma';
-import type { Detail } from '@prisma/client';
-import DetailsTable from '@/components/detailsTable';
+import { getDetailById } from '@/lib/get/getDetail'; // Adjust the import path as needed
+import DetailsTable from '@/components/detailsTable'; // Adjust the import path as needed
 
-async function getAllDetails(): Promise<{ details: Detail[], error: string | null }> {
+export default async function SpecificDetailPage({ params }: { params: { id: string } }) {
+  let detail = null;
+  let error = null;
+
   try {
-    console.log('Attempting to fetch all details');
-    const details = await prisma.detail.findMany();
-    console.log(`Successfully fetched ${details.length} details`);
-    return { details, error: null };
-  } catch (error) {
-    console.error('Error fetching details:', error);
-    return { details: [], error: 'Error fetching details data' };
+    detail = await getDetailById(params.id);
+    if (!detail) {
+      error = 'Shipment not found';
+    }
+  } catch (err) {
+    console.error('Error fetching shipment:', err);
+    error = 'Error fetching shipment data';
   }
-}
-
-export default async function DetailPage() {
-  const { details, error } = await getAllDetails();
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="text-2xl font-bold mb-6">Shipment Details</h1>
-      <DetailsTable details={details} error={error} />
+    <div>
+      <DetailsTable details={detail ? [detail] : []} error={error} />
     </div>
   );
 }
