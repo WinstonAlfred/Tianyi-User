@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Shipment } from "@prisma/client";
 import Link from "next/link";
+import { ArrowUpDown } from 'lucide-react';
 
 interface Props {
   shipments: Shipment[];
@@ -12,7 +13,8 @@ interface Props {
 const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const itemsPerPage = 5;
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
@@ -22,9 +24,17 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
     return <div>No shipments available.</div>;
   }
 
-  const filteredShipments = shipments.filter((shipment) =>
-    shipment.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredShipments = shipments
+    .filter((shipment) =>
+      shipment.id.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.id.localeCompare(b.id);
+      } else {
+        return b.id.localeCompare(a.id);
+      }
+    });
 
   const pageCount = Math.ceil(filteredShipments.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -32,6 +42,10 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
   const currentItems = filteredShipments.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const toggleSort = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
 
   return (
     <div>
@@ -59,7 +73,18 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th className="py-3 px-4">#</th>
-              <th className="py-3 px-4">Shipment ID</th>
+              <th className="py-3 px-4">
+                <div className="flex items-center">
+                  Shipment ID
+                  <button
+                    onClick={toggleSort}
+                    className="ml-2 focus:outline-none"
+                    aria-label={`Sort by Shipment ID ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+                  >
+                    <ArrowUpDown size={16} />
+                  </button>
+                </div>
+              </th>
               <th className="py-3 px-4">Status</th>
               <th className="py-3 px-4">Shipment from</th>
               <th className="py-3 px-4">Shipment destination</th>

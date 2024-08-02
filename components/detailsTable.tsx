@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Detail } from "@prisma/client";
 import ClientRow from "./clientRow";
+import { ArrowUpDown } from 'lucide-react';
 
 interface Props {
   details: Detail[];
@@ -12,6 +13,7 @@ interface Props {
 const DetailsTable: React.FC<Props> = ({ details, error }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const itemsPerPage = 10;
 
   if (error) {
@@ -22,9 +24,17 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
     return <div>No details available.</div>;
   }
 
-  const filteredDetails = details.filter((detail) =>
-    detail.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDetails = details
+    .filter((detail) =>
+      detail.id.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.id.localeCompare(b.id);
+      } else {
+        return b.id.localeCompare(a.id);
+      }
+    });
 
   const pageCount = Math.ceil(filteredDetails.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -32,6 +42,10 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
   const currentItems = filteredDetails.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const toggleSort = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -59,7 +73,18 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th className="py-3 px-4">#</th>
-              <th className="py-3 px-4">Detail ID</th>
+              <th className="py-3 px-4">
+                <div className="flex items-center">
+                  Detail ID
+                  <button
+                    onClick={toggleSort}
+                    className="ml-2 focus:outline-none"
+                    aria-label={`Sort by Detail ID ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+                  >
+                    <ArrowUpDown size={16} />
+                  </button>
+                </div>
+              </th>
               <th className="py-3 px-4">Loading</th>
               <th className="py-3 px-4">Unloading</th>
               <th className="py-3 px-4">Daily Activities</th>
