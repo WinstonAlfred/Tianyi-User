@@ -11,6 +11,8 @@ interface Props {
 
 const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
@@ -24,6 +26,13 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
     shipment.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const pageCount = Math.ceil(filteredShipments.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredShipments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT TABLE</div>
@@ -33,11 +42,14 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
           placeholder="Search by Shipment ID"
           className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1); // Reset to first page on new search
+          }}
         />
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onClick={() => {/* Implement search functionality */}}
+          onClick={() => {/* Implement additional search functionality if needed */}}
         >
           Search
         </button>
@@ -56,13 +68,13 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredShipments.map((shipment, index) => (
+            {currentItems.map((shipment, index) => (
               <tr
                 key={shipment.id}
                 className="bg-white border-b hover:bg-gray-50"
               >
                 <td className="py-3 px-4 font-medium text-gray-900">
-                  {index + 1}
+                  {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>
                 <td className="py-3 px-4">{shipment.id}</td>
                 <td className="py-3 px-4">{shipment.Status}</td>
@@ -102,6 +114,23 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
           </tbody>
         </table>
       </div>
+      {pageCount > 1 && (
+        <div className="mt-4 flex justify-center pb-4">
+          {Array.from({ length: Math.min(10, pageCount) }, (_, i) => i + 1).map((number) => (
+            <button
+              key={number}
+              onClick={() => paginate(number)}
+              className={`mx-1 px-3 py-1 rounded ${
+                currentPage === number
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {number}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
