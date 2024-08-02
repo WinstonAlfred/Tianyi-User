@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { Shipment } from "@prisma/client";
 import Link from "next/link";
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, FileDown } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface Props {
   shipments: Shipment[];
@@ -45,6 +46,22 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
 
   const toggleSort = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const exportToExcel = (shipment: Shipment) => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet([{
+      'Shipment ID': shipment.id,
+      'Status': shipment.Status,
+      'Ship from': shipment.Ship_from,
+      'Ship destination': shipment.Ship_destination,
+      'Products': shipment.Product?.join(', '),
+      'Capacities': shipment.Capacity?.join(', '),
+      'Descriptions': shipment.Description?.join(', ')
+    }]);
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Shipment");
+    XLSX.writeFile(workbook, `Shipment_${shipment.id}.xlsx`);
   };
 
   return (
@@ -90,6 +107,7 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
               <th className="py-3 px-4">Shipment destination</th>
               <th className="py-3 px-4">Products</th>
               <th className="py-3 px-4">Details</th>
+              <th className="py-3 px-4">Export</th>
             </tr>
           </thead>
           <tbody>
@@ -133,6 +151,15 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                   <Link href={`/details/${shipment.id}`} className="text-blue-600 hover:underline">
                     View Shipment Details
                   </Link>
+                </td>
+                <td className="py-3 px-4">
+                  <button
+                    onClick={() => exportToExcel(shipment)}
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+                  >
+                    <FileDown size={16} className="mr-1" />
+                    Export
+                  </button>
                 </td>
               </tr>
             ))}
