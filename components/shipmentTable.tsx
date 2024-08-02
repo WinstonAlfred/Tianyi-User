@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Shipment } from "@prisma/client";
 import Link from "next/link";
-import { ArrowUpDown, FileDown } from 'lucide-react';
+import { ArrowUpDown, FileDown, Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface Props {
@@ -64,25 +64,52 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
     XLSX.writeFile(workbook, `Shipment_${shipment.id}.xlsx`);
   };
 
+  const exportAllToExcel = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(
+      shipments.map(shipment => ({
+        'Shipment ID': shipment.id,
+        'Status': shipment.Status,
+        'Ship from': shipment.Ship_from,
+        'Ship destination': shipment.Ship_destination,
+        'Products': shipment.Product?.join(', '),
+        'Capacities': shipment.Capacity?.join(', '),
+        'Descriptions': shipment.Description?.join(', ')
+      }))
+    );
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "All Shipments");
+    XLSX.writeFile(workbook, "All_Shipments.xlsx");
+  };
+
   return (
     <div>
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT TABLE</div>
-      <div className="mb-4 flex">
-        <input
-          type="text"
-          placeholder="Search by Shipment ID"
-          className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1); // Reset to first page on new search
-          }}
-        />
+      <div className="mb-4 flex justify-between">
+        <div className="flex flex-grow">
+          <input
+            type="text"
+            placeholder="Search by Shipment ID"
+            className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to first page on new search
+            }}
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onClick={() => {/* Implement additional search functionality if needed */}}
+          >
+            Search
+          </button>
+        </div>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onClick={() => {/* Implement additional search functionality if needed */}}
+          onClick={exportAllToExcel}
+          className="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
         >
-          Search
+          <Download size={16} className="mr-2" />
+          Export All
         </button>
       </div>
       <div className="overflow-x-auto">

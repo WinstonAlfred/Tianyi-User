@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { Detail } from "@prisma/client";
 import ClientRow from "./clientRow";
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, FileDown } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface Props {
   details: Detail[];
@@ -47,25 +48,49 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  const exportAllToExcel = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(
+      filteredDetails.map(detail => ({
+        'Detail ID': detail.id,
+        'Loading': detail.Loading.join('\n'),
+        'Unloading': detail.Unloading.join('\n'),
+        'Daily Activities': detail.Daily_activities.join('\n')
+      }))
+    );
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "All Details");
+    XLSX.writeFile(workbook, `All_Details.xlsx`);
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT DETAILS TABLE</div>
-      <div className="mb-4 px-4 flex">
-        <input
-          type="text"
-          placeholder="Search by Detail ID"
-          className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1); // Reset to first page on new search
-          }}
-        />
+      <div className="mb-4 px-4 flex justify-between items-center">
+        <div className="flex flex-1">
+          <input
+            type="text"
+            placeholder="Search by Detail ID"
+            className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to first page on new search
+            }}
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onClick={() => {/* Implement additional search functionality if needed */}}
+          >
+            Search
+          </button>
+        </div>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onClick={() => {/* Implement additional search functionality if needed */}}
+          onClick={exportAllToExcel}
+          className="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
         >
-          Search
+          <FileDown size={16} className="mr-2" />
+          Export All
         </button>
       </div>
       <div className="overflow-x-auto">
@@ -88,11 +113,16 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
               <th className="py-3 px-4">Loading</th>
               <th className="py-3 px-4">Unloading</th>
               <th className="py-3 px-4">Daily Activities</th>
+              <th className="py-3 px-4">Export</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((detail, index) => (
-              <ClientRow key={detail.id} detail={detail} index={(currentPage - 1) * itemsPerPage + index + 1} />
+              <ClientRow 
+                key={detail.id}
+                detail={detail} 
+                index={(currentPage - 1) * itemsPerPage + index + 1}
+              />
             ))}
           </tbody>
         </table>
