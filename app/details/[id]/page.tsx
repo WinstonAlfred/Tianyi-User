@@ -9,7 +9,7 @@ export default async function SpecificDetailPage({ params }: { params: { id: str
   try {
     detail = await getDetailById(params.id);
     if (!detail) {
-      error = 'Shipment not found';
+      error = 'Shipment details not found';
     }
   } catch (err) {
     console.error('Error fetching shipment:', err);
