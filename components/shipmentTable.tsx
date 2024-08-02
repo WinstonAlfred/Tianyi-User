@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Shipment } from "@prisma/client";
 import Link from "next/link";
-import { ArrowUpDown, FileDown, Download } from 'lucide-react';
+import { ArrowUpDown, FileDown, Download, Search } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface Props {
@@ -85,7 +85,7 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
   return (
     <div>
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT TABLE</div>
-      <div className="mb-4 flex justify-between">
+      <div className="mb-4 flex flex-col sm:flex-row gap-2">
         <div className="flex flex-grow">
           <input
             type="text"
@@ -94,19 +94,20 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on new search
+              setCurrentPage(1);
             }}
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center"
             onClick={() => {/* Implement additional search functionality if needed */}}
           >
-            Search
+            <Search size={16} className="mr-2 sm:mr-0" />
+            <span className="hidden sm:inline">Search</span>
           </button>
         </div>
         <button
           onClick={exportAllToExcel}
-          className="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+          className="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
         >
           <Download size={16} className="mr-2" />
           Export All

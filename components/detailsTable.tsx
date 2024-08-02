@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Detail } from "@prisma/client";
 import ClientRow from "./clientRow";
-import { ArrowUpDown, FileDown } from 'lucide-react';
+import { ArrowUpDown, FileDown, Search } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface Props {
@@ -64,10 +64,10 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-full">
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT DETAILS TABLE</div>
-      <div className="mb-4 px-4 flex justify-between items-center">
-        <div className="flex flex-1">
+      <div className="mb-4 px-4 flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-grow">
           <input
             type="text"
             placeholder="Search by Detail ID"
@@ -75,19 +75,20 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on new search
+              setCurrentPage(1);
             }}
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center"
             onClick={() => {/* Implement additional search functionality if needed */}}
           >
-            Search
+            <Search size={16} className="mr-2 sm:mr-0" />
+            <span className="hidden sm:inline">Search</span>
           </button>
         </div>
         <button
           onClick={exportAllToExcel}
-          className="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+          className="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
         >
           <FileDown size={16} className="mr-2" />
           Export All
@@ -128,20 +129,22 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
         </table>
       </div>
       {pageCount > 1 && (
-        <div className="mt-4 flex justify-center pb-4">
-          {Array.from({ length: Math.min(10, pageCount) }, (_, i) => i + 1).map((number) => (
-            <button
-              key={number}
-              onClick={() => paginate(number)}
-              className={`mx-1 px-3 py-1 rounded ${
-                currentPage === number
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {number}
-            </button>
-          ))}
+        <div className="mt-4 flex justify-center pb-4 overflow-x-auto">
+          <div className="flex">
+            {Array.from({ length: Math.min(10, pageCount) }, (_, i) => i + 1).map((number) => (
+              <button
+                key={number}
+                onClick={() => paginate(number)}
+                className={`mx-1 px-3 py-1 rounded ${
+                  currentPage === number
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {number}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
