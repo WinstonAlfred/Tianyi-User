@@ -99,7 +99,7 @@ export default function Home() {
             Ready to Transform Your Shipping Operations?
           </h2>
           <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8">
-          oin thousands of companies already benefiting from Tianyi&apos;s powerful platform.
+          Join thousands of companies already benefiting from Tianyi&apos;s powerful platform.
           </p>
           <Link 
             href="/contact" 
