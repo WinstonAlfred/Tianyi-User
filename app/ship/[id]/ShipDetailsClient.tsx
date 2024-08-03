@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Ship, Shipment } from '@prisma/client';
+import { ArrowUpDown } from 'lucide-react';
 
 interface Props {
   ship: Ship | null;
@@ -88,13 +89,15 @@ export default function ShipDetailsClient({ ship, shipments, error }: Props) {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th className="py-3 px-6">
-                    Shipment ID
-                    <button
-                      onClick={toggleSortOrder}
-                      className="ml-2 text-blue-500 hover:text-blue-700"
-                    >
-                      {sortOrder === 'asc' ? '▲' : '▼'}
-                    </button>
+                    <div className="flex items-center">
+                      Shipment ID
+                      <button
+                        onClick={toggleSortOrder}
+                        className="ml-2 text-black hover:text-blue-700 focus:outline-none"
+                      >
+                        <ArrowUpDown className={`h-4 w-4 ${sortOrder === 'desc' ? 'transform rotate-180' : ''}`} />
+                      </button>
+                    </div>
                   </th>
                   <th className="py-3 px-6">More</th>
                 </tr>
