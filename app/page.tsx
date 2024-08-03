@@ -14,21 +14,6 @@ interface Circle {
 }
 
 
-const ScrollingShip = () => {
-  const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 1000], ['0%', '100%'])
-
-  return (
-    <motion.div
-      className="fixed left-4 top-1/2 -translate-y-1/2 z-50"
-      style={{ y }}
-    >
-      <Ship size={48} className="text-blue-600" />
-    </motion.div>
-  )
-}
-
-
 
 const GenerativeBackground = () => {
   const [circles, setCircles] = useState<Circle[]>([])
