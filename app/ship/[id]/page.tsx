@@ -44,7 +44,13 @@ async function getShipData(id: string): Promise<Props> {
 export default async function ShipDetailsPage({ params }: { params: { id: string } }) {
   const { ship, shipments, error } = await getShipData(params.id);
 
-  return <ShipDetailsClient ship={ship} shipments={shipments} error={error} />;
+  return (
+    <ShipDetailsClient
+      ship={ship}
+      shipments={shipments}
+      error={error}
+    />
+  );
 }
 
 // Add ISR configuration

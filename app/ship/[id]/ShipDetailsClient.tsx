@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Ship, Shipment } from '@prisma/client';
 
@@ -14,10 +14,40 @@ export default function ShipDetailsClient({ ship, shipments, error }: Props) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const itemsPerPage = 10;
 
   const handleViewShipmentData = (shipmentId: string) => {
     router.push(`/shipment/${shipmentId}`);
+  };
+
+  const sortShipments = (shipments: Shipment[], order: 'asc' | 'desc'): Shipment[] => {
+    return [...shipments].sort((a, b) => {
+      if (order === 'asc') {
+        return a.id.localeCompare(b.id);
+      } else {
+        return b.id.localeCompare(a.id);
+      }
+    });
+  };
+
+  const filteredAndSortedShipments = useMemo(() => {
+    const filtered = shipments.filter((shipment) =>
+      shipment.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return sortShipments(filtered, sortOrder);
+  }, [shipments, searchTerm, sortOrder]);
+
+  const pageCount = Math.ceil(filteredAndSortedShipments.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredAndSortedShipments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    setCurrentPage(1); // Reset to first page on sort change
   };
 
   if (error) {
@@ -27,17 +57,6 @@ export default function ShipDetailsClient({ ship, shipments, error }: Props) {
   if (!ship) {
     return <div>Ship not found</div>;
   }
-
-  const filteredShipments = shipments.filter((shipment) =>
-    shipment.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const pageCount = Math.ceil(filteredShipments.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredShipments.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -68,7 +87,15 @@ export default function ShipDetailsClient({ ship, shipments, error }: Props) {
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
-                  <th className="py-3 px-6">Shipment ID</th>
+                  <th className="py-3 px-6">
+                    Shipment ID
+                    <button
+                      onClick={toggleSortOrder}
+                      className="ml-2 text-blue-500 hover:text-blue-700"
+                    >
+                      {sortOrder === 'asc' ? '▲' : '▼'}
+                    </button>
+                  </th>
                   <th className="py-3 px-6">More</th>
                 </tr>
               </thead>
