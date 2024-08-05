@@ -4,7 +4,6 @@ A Next.js 14 application for tracking and managing shipments, built with TypeScr
 
 ## Features
 
-- User authentication and authorization
 - Shipment tracking
 - Ship and shipment management
 - Contact form with email integration (using Mailtrap)
