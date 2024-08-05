@@ -73,6 +73,3 @@ A Next.js 14 application for tracking and managing shipments, built with TypeScr
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
