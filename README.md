@@ -42,6 +42,6 @@ A Next.js 14 application for tracking and managing shipments, built with TypeScr
 ## API Routes
 - `/api/send-email`: Handles email requests using Mailtrap
 
-## Visit the website
+## Visit The Website
 https://tianyi-user.vercel.app/
 
