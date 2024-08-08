@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Ship, BarChart2, Globe } from 'lucide-react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 interface Circle {
   x: number;
@@ -72,7 +72,7 @@ export default function Home() {
             Welcome to 天艺
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-            Revolutionize your shipping operations with our cutting-edge tracking and management system.
+            Construction Made Easy with All-In-One Solutions
           </p>
           <motion.div
             className="mt-8 space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center"
@@ -111,12 +111,12 @@ export default function Home() {
               Effortless Shipping Management
             </h2>
             <p className="text-base sm:text-lg text-gray-600">
-              Experience unparalleled control over your shipping operations with Tianyi&apos; intuitive platform. Our solution provides:
+              Experience unparalleled control over your shipping operations with Tianyi&apos;s intuitive platform. Our solution provides:
             </p>
             <ul className="space-y-3">
               {[
                 { Icon: Ship, text: "Real-time tracking across global shipping routes" },
-                { Icon: BarChart2, text: "Comprehensive analytics for data-driven decisions" },
+                { Icon: BarChart2, text: "Detailed information on current shipment activities" },
                 { Icon: Globe, text: "Seamless integration with existing logistics systems" }
               ].map((item, index) => (
                 <motion.li
@@ -148,7 +148,7 @@ export default function Home() {
               },
               {
                 title: 'Smart Analytics',
-                description: 'Gain actionable insights with our advanced data analysis tools.',
+                description: 'Never miss a moment with our live tracking-system website',
                 icon: <BarChart2 className="text-blue-500 mb-4" size={32} />
               },
               {
@@ -181,10 +181,10 @@ export default function Home() {
           className="text-center bg-gradient-to-r from-blue-500 to-blue-700 p-8 sm:p-12 rounded-2xl shadow-2xl"
         >
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Shipping Operations?
+            Ready to Transform Your Construction Operations?
           </h2>
           <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8">
-            Join thousands of companies already benefiting from Tianyi&apos; powerful platform.
+            Join plenty of companies already benefiting from Tianyi&apos;s powerful platform.
           </p>
           <motion.div
             whileHover={{ scale: 1.05 }}
