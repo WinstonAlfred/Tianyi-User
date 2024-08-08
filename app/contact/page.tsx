@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Globe } from 'lucide-react';
 
 const ContactPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,11 +56,18 @@ const ContactPage = () => {
             {[
               { icon: Mail, text: "winston.tianyi@gmail.com" },
               { icon: Phone, text: "+62 321321321" },
-              { icon: MapPin, text: "14460, GoldCoast Office, Jakarta Utara, Indonesia" }
+              { icon: MapPin, text: "14460, GoldCoast Office, Jakarta Utara, Indonesia" },
+              { icon: Globe, text: "Visit our Company Profile Website", link: "https://tianyi.web.id/" }
             ].map((item, index) => (
               <div key={index} className="flex items-center space-x-3 text-gray-700">
                 <item.icon className="w-5 h-5 text-blue-500" />
-                <span>{item.text}</span>
+                {item.link ? (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                    {item.text}
+                  </a>
+                ) : (
+                  <span>{item.text}</span>
+                )}
               </div>
             ))}
           </div>
