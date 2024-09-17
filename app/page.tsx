@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Ship, BarChart2, Globe } from 'lucide-react'
+import { Ship, BarChart2, Globe, CheckCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface Circle {
@@ -12,6 +12,86 @@ interface Circle {
   radius: number;
   opacity: number;
 }
+
+interface ValueItemProps {
+  title: string;
+  description: string;
+  index: number;
+  imageSrc: string;
+}
+
+const ValueItem: React.FC<ValueItemProps> = ({ title, description, index, imageSrc }) => (
+  <motion.div 
+    className="bg-gradient-to-r from-white to-blue-100 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+  >
+    <div className="flex items-center justify-between p-6">
+      <div className="flex-1 pr-4">
+        <h3 className="text-xl font-bold text-navy-700 mb-2">{title}</h3>
+        <p className="text-navy-600 text-justify">{description}</p>
+      </div>
+      <img src={imageSrc} alt={title} className="w-24 h-24 object-cover rounded-full flex-shrink-0" />
+    </div>
+  </motion.div>
+);
+
+const ValuesSection: React.FC = () => {
+  const values = [
+    {
+      title: "Integrity",
+      description: "We build and strengthen our reputation through unwavering honesty and reliability, ensuring every promise and action aligns with the highest standards of integrity.",
+      imageSrc: "/intergrity.png"
+    },
+    {
+      title: "Commitment",
+      description: "We are deeply committed to responsibility, mutual respect, and ethical management. We prioritize safety and environmental stewardship in every aspect of our operations.",
+      imageSrc: "/commitment.png"
+    },
+    {
+      title: "Teamwork",
+      description: "We believe in the power of collaboration, achieving superior results through unity, shared goals, and collective effort. Our strength lies in our ability to work together.",
+      imageSrc: "/teamwork.png"
+    },
+    {
+      title: "Excellence",
+      description: "We are dedicated to excellence, driven by a passion for our people, our products, and the superior quality of our services. We strive to exceed expectations in all we do.",
+      imageSrc: "/excellence.png"
+    },
+    {
+      title: "Innovation",
+      description: "We embrace innovation in both our product offerings and our logistical solutions, continuously striving to improve and meet the evolving needs of our clients in creative ways.",
+      imageSrc: "/innovation.png"
+    }
+  ];
+
+  return (
+    <section className="py-16 bg-gradient-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="text-3xl sm:text-4xl font-bold text-center text-navy-800 mb-12"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Our Core Values
+        </motion.h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {values.map((value, index) => (
+            <ValueItem 
+              key={index} 
+              index={index} 
+              title={value.title} 
+              description={value.description} 
+              imageSrc={value.imageSrc}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 
 
@@ -134,6 +214,7 @@ export default function Home() {
           </div>
         </motion.div>
 
+
         {/* Key Features Section */}
         <div className="mb-16 sm:mb-24">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy-800 mb-8 sm:mb-12">
@@ -172,6 +253,8 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        <ValuesSection />
 
         {/* Call to Action */}
         <motion.div
