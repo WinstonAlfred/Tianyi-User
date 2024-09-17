@@ -65,8 +65,8 @@ export default function RootLayout({
                 <Link href="/">
                   <Image
                     src="/logo.png"
-                    width={150}
-                    height={40}
+                    width={200}
+                    height={100}
                     alt="ShipTrack Logo"
                     className="max-h-10 w-auto cursor-pointer"
                   />
