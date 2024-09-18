@@ -27,12 +27,12 @@ const ValueItem: React.FC<ValueItemProps> = ({ title, description, index, imageS
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay: index * 0.1 }}
   >
-    <div className="flex items-center justify-between p-6">
-      <div className="flex-1 pr-4">
-        <h3 className="text-xl font-bold text-navy-700 mb-2">{title}</h3>
-        <p className="text-navy-600 text-justify">{description}</p>
+    <div className="flex flex-col sm:flex-row items-center p-4 sm:p-6">
+      <img src={imageSrc} alt={title} className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-full mb-4 sm:mb-0 sm:mr-6" />
+      <div className="flex-1 text-center sm:text-left">
+        <h3 className="text-lg sm:text-xl font-bold text-navy-700 mb-2">{title}</h3>
+        <p className="text-sm sm:text-base text-navy-600">{description}</p>
       </div>
-      <img src={imageSrc} alt={title} className="w-24 h-24 object-cover rounded-full flex-shrink-0" />
     </div>
   </motion.div>
 );
@@ -67,17 +67,17 @@ const ValuesSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-blue-50 to-white">
+    <section className="py-8 sm:py-16 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4">
         <motion.h2 
-          className="text-3xl sm:text-4xl font-bold text-center text-navy-800 mb-12"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-navy-800 mb-8 sm:mb-12"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           Our Core Values
         </motion.h2>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-6 sm:gap-8">
           {values.map((value, index) => (
             <ValueItem 
               key={index} 
@@ -253,7 +253,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-
+      
         <ValuesSection />
 
         {/* Call to Action */}
