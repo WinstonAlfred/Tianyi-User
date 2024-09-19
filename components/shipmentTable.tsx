@@ -157,7 +157,7 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                       <li
                         key={idx}
                         className={`p-2 rounded-md ${
-                          idx % 2 === 0 ? "bg-blue-50" : "bg-green-50"
+                          idx % 2 === 0 ? "bg-white" : "bg-white"
                         } mb-2`}
                       >
                         <div className="font-medium text-gray-800">
