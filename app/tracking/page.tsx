@@ -2,7 +2,7 @@ import React from 'react'
 
 const trackingPage = () => {
   return (
-    <div>trackingPage</div>
+    <div> ~ Coming Soon ~</div>
   )
 }
 
