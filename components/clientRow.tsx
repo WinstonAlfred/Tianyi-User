@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, FileDown } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface Detail {
   id: string;
@@ -71,6 +72,19 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
     );
   };
 
+  const exportToExcel = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet([{
+      'Detail ID': detail.id,
+      'Loading': detail.Loading.join('\n'),
+      'Unloading': detail.Unloading.join('\n'),
+      'Daily Activities': detail.Daily_activities.join('\n')
+    }]);
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Detail");
+    XLSX.writeFile(workbook, `Detail_${detail.id}.xlsx`);
+  };
+
   return (
     <>
       <tr className="bg-white border-b hover:bg-gray-50 transition duration-150 ease-in-out">
@@ -90,7 +104,14 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
           {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
         </td>
         <td className="py-4 px-4 align-top">
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center">
+            <button
+              onClick={exportToExcel}
+              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+            >
+              <FileDown size={16} className="mr-1" />
+              Export
+            </button>
           </div>
         </td>
       </tr>
