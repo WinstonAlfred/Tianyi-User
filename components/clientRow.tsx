@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, FileDown } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Detail {
   id: string;
@@ -34,15 +33,30 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
 
   const parseActivityString = (str: string): { description: string, items: { datetime: string, work: string }[] } => {
     const lines = str.split('\n');
-    const description = lines[0].replace('Description: ', '');
-    const items = [];
-    for (let i = 1; i < lines.length; i += 2) {
-      items.push({
-        datetime: lines[i].replace('Datetime: ', ''),
-        work: lines[i + 1].replace('Work: ', '')
-      });
+    let description = '';
+    let items = [];
+    let isDescription = true;
+
+    for (let i = 0; i < lines.length; i++) {
+      if (isDescription) {
+        if (lines[i].startsWith('Datetime:')) {
+          isDescription = false;
+          i--; // Reprocess this line as an item
+        } else {
+          description += lines[i] + '\n';
+        }
+      } else {
+        if (i + 1 < lines.length) {
+          items.push({
+            datetime: lines[i].replace('Datetime: ', ''),
+            work: lines[i + 1].replace('Work: ', '')
+          });
+          i++; // Skip the next line as we've already processed it
+        }
+      }
     }
-    return { description, items };
+
+    return { description: description.trim(), items };
   };
 
   const renderFormattedText = (items: string[], type: ActivityType): JSX.Element => {
@@ -52,7 +66,7 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
           const { description, items } = parseActivityString(text);
           return (
             <div key={index} className={`${getItemColor(type)} p-4 rounded overflow-x-auto`}>
-              <h4 className="font-bold mb-2">{description}</h4>
+              <pre className="font-bold mb-2 whitespace-pre-wrap">{description}</pre>
               <div className="overflow-x-auto">
                 <table className="w-full table-auto">
                   <tbody>
@@ -72,18 +86,6 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
     );
   };
 
-  const exportToExcel = () => {
-    const workbook = XLSX.utils.book_new();
-    const worksheet = XLSX.utils.json_to_sheet([{
-      'Detail ID': detail.id,
-      'Loading': detail.Loading.join('\n'),
-      'Unloading': detail.Unloading.join('\n'),
-      'Daily Activities': detail.Daily_activities.join('\n')
-    }]);
-    
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Detail");
-    XLSX.writeFile(workbook, `Detail_${detail.id}.xlsx`);
-  };
 
   return (
     <>
@@ -104,14 +106,7 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
           {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
         </td>
         <td className="py-4 px-4 align-top">
-          <div className="flex justify-center">
-            <button
-              onClick={exportToExcel}
-              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
-            >
-              <FileDown size={16} className="mr-1" />
-              Export
-            </button>
+          <div className="flex justify-center gap-2">
           </div>
         </td>
       </tr>
