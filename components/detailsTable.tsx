@@ -1,10 +1,18 @@
 'use client'
 
 import React, { useState } from "react";
-import { Detail } from "@prisma/client";
 import ClientRow from "./clientRow";
 import { ArrowUpDown, FileDown, Search } from 'lucide-react';
 import * as XLSX from 'xlsx';
+
+// Update this interface to match your Prisma schema
+interface Detail {
+  id: string;
+  Queue: string[];
+  Loading: string[];
+  Unloading: string[];
+  Sailing_report: string[];
+}
 
 interface Props {
   details: Detail[];
@@ -53,9 +61,10 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
     const worksheet = XLSX.utils.json_to_sheet(
       filteredDetails.map(detail => ({
         'Detail ID': detail.id,
+        'Queue': detail.Queue.join('\n'),
         'Loading': detail.Loading.join('\n'),
         'Unloading': detail.Unloading.join('\n'),
-        'Daily Activities': detail.Daily_activities.join('\n')
+        'Sailing Report': detail.Sailing_report.join('\n')
       }))
     );
     
@@ -111,9 +120,10 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
                   </button>
                 </div>
               </th>
+              <th className="py-3 px-4">Queue</th>
               <th className="py-3 px-4">Loading</th>
               <th className="py-3 px-4">Unloading</th>
-              <th className="py-3 px-4">Daily Activities</th>
+              <th className="py-3 px-4">Sailing Report</th>
               <th className="py-3 px-4">Export</th>
             </tr>
           </thead>
