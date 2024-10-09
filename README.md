@@ -19,20 +19,64 @@ A Next.js 14 application for tracking and managing shipments, built with TypeScr
 
 ## Project Structure
 ```
-.
+
+├── .env
+├── .env.local
+├── .eslintrc.json
+├── .gitignore
 ├── app/
 │   ├── api/
 │   │   └── send-email/
+│   │       └── route.ts
 │   ├── contact/
+│   │   └── page.tsx
 │   ├── details/
+│   │   ├── page.tsx
+│   │   └── [id]/
+│   │       └── page.tsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
 │   ├── ship/
+│   │   ├── page.tsx
+│   │   └── [id]/
+│   │       ├── page.tsx
+│   │       └── ShipDetailsClient.tsx
 │   ├── shipment/
+│   │   ├── page.tsx
+│   │   └── [id]/
+│   │       └── page.tsx
 │   └── tracking/
+│       └── page.tsx
 ├── components/
+│   ├── clientRow.tsx
+│   ├── detailsTable.tsx
+│   ├── shipmentTable.tsx
+│   └── shipTable.tsx
 ├── lib/
-│   └── get/
+│   ├── get/
+│   │   ├── getDetail.ts
+│   │   ├── getShip.ts
+│   │   └── getShipment.ts
+│   └── prisma.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
 ├── prisma/
-└── public/
+│   └── schema.prisma
+├── public/
+│   ├── commitment.png
+│   ├── excellence.png
+│   ├── innovation.png
+│   ├── intergrity.png
+│   ├── logo.png
+│   ├── ship.jpeg
+│   └── teamwork.png
+├── README.md
+├── tailwind.config.ts
+└── tsconfig.json
 ```
 
 ## Web Application Features
