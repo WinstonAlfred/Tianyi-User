@@ -148,7 +148,15 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                   {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>
                 <td className="py-3 px-4">{shipment.id}</td>
-                <td className="py-3 px-4">{shipment.Status}</td>
+                <td className="py-3 px-4">
+                  {shipment.Status.toLowerCase() === 'loading' ? (
+                    <Link href={`/loading/${shipment.id}`} className="text-blue-600 hover:underline">
+                      {shipment.Status}
+                    </Link>
+                  ) : (
+                    shipment.Status
+                  )}
+                </td>
                 <td className="py-3 px-4">{shipment.Ship_from}</td>
                 <td className="py-3 px-4">{shipment.Ship_destination}</td>
                 <td className="py-3 px-4">
