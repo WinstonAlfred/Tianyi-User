@@ -6,7 +6,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -125,16 +126,27 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="bg-navy-800 text-white py-8">
+        <footer className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-12">
           <div className="container mx-auto px-4">
-            <div className="flex flex-wrap justify-between items-center">
-              <div className="w-full md:w-1/2 lg:w-1/3 text-center md:text-left mb-4 md:mb-0">
-                <h2 className="text-xl font-bold">Tianyi Decoration Construction</h2>
-                <p className="mt-2 text-sm text-gray-300">Advanced Shipping Management Solutions</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center md:text-left">
+                <h2 className="text-2xl font-bold mb-4">Tianyi Decoration Construction</h2>
+                <p className="text-gray-300">Advanced Shipping Management Solutions</p>
               </div>
-              <div className="w-full md:w-1/2 lg:w-1/3 text-center md:text-right">
-                <p className="text-sm">&copy; 2024 Tianyi Decoration Construction. All rights reserved.</p>
+              <div className="text-center">
               </div>
+              <div className="text-center md:text-right">
+                <h3 className="text-xl font-semibold mb-4">Connect With Us</h3>
+                <div className="flex justify-center md:justify-end space-x-4">
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Facebook size={24} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Twitter size={24} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Instagram size={24} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Linkedin size={24} /></a>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 pt-8 border-t border-blue-500 text-center">
+              <p className="text-sm text-gray-300">&copy; 2024 Tianyi Decoration Construction. All rights reserved.</p>
             </div>
           </div>
         </footer>

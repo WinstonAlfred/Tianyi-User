@@ -72,6 +72,20 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
     XLSX.writeFile(workbook, `All_Details.xlsx`);
   };
 
+  const exportSingleToExcel = (detail: Detail) => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet([{
+      'Detail ID': detail.id,
+      'Queue': detail.Queue.join('\n'),
+      'Loading': detail.Loading.join('\n'),
+      'Unloading': detail.Unloading.join('\n'),
+      'Sailing Report': detail.Sailing_report.join('\n')
+    }]);
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Detail");
+    XLSX.writeFile(workbook, `Detail_${detail.id}.xlsx`);
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-full">
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT DETAILS TABLE</div>
@@ -133,6 +147,7 @@ const DetailsTable: React.FC<Props> = ({ details, error }) => {
                 key={detail.id}
                 detail={detail} 
                 index={(currentPage - 1) * itemsPerPage + index + 1}
+                onExport={() => exportSingleToExcel(detail)}
               />
             ))}
           </tbody>

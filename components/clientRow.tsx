@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, FileDown } from 'lucide-react';
 
 interface Detail {
   id: string;
@@ -14,9 +14,10 @@ type ActivityType = 'Loading' | 'Unloading' | 'Sailing Report' | 'Queue';
 interface ClientRowProps {
   detail: Detail;
   index: number;
+  onExport: () => void;
 }
 
-const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
+const ClientRow: React.FC<ClientRowProps> = ({ detail, index, onExport }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const getItemColor = (type: ActivityType): string => {
@@ -89,7 +90,6 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
     );
   };
 
-
   return (
     <>
       <tr className="bg-white border-b hover:bg-gray-50 transition duration-150 ease-in-out">
@@ -111,9 +111,18 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
         <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Sailing_report, 'Sailing Report')}
         </td>
+        <td className="py-4 px-4 align-top">
+          <button
+            onClick={onExport}
+            className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+          >
+            <FileDown size={16} className="mr-1" />
+            Export
+          </button>
+        </td>
       </tr>
       <tr>
-        <td colSpan={6} className="py-2 px-4">
+        <td colSpan={7} className="py-2 px-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-blue-500 hover:text-blue-700 text-sm flex items-center"
