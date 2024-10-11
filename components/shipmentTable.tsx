@@ -82,6 +82,23 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
     XLSX.writeFile(workbook, "All_Shipments.xlsx");
   };
 
+  const getStatusLink = (status: string, shipmentId: string) => {
+    const statusLower = status.toLowerCase();
+    switch (statusLower) {
+      case 'loading':
+        return `/loading/${shipmentId}`;
+      case 'queueing':
+        return `/queue/${shipmentId}`;
+      case 'pickup':
+      case 'ongoing':
+        return `/sailingReport/${shipmentId}`;
+      case 'unloading':
+        return `/unloading/${shipmentId}`;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       <div className="bg-gray-200 p-4 rounded-md mb-4 text-lg font-bold">SHIPMENT TABLE</div>
@@ -149,13 +166,16 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                 </td>
                 <td className="py-3 px-4">{shipment.id}</td>
                 <td className="py-3 px-4">
-                  {shipment.Status.toLowerCase() === 'loading' ? (
-                    <Link href={`/loading/${shipment.id}`} className="text-blue-600 hover:underline">
-                      {shipment.Status}
-                    </Link>
-                  ) : (
-                    shipment.Status
-                  )}
+                  {(() => {
+                    const link = getStatusLink(shipment.Status, shipment.id);
+                    return link ? (
+                      <Link href={link} className="text-blue-600 hover:underline">
+                        {shipment.Status}
+                      </Link>
+                    ) : (
+                      shipment.Status
+                    );
+                  })()}
                 </td>
                 <td className="py-3 px-4">{shipment.Ship_from}</td>
                 <td className="py-3 px-4">{shipment.Ship_destination}</td>

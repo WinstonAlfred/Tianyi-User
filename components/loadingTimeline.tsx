@@ -11,9 +11,9 @@ interface LoadingTimelineProps {
 const LoadingTimeline: React.FC<LoadingTimelineProps> = ({ loadingData, shipmentId }) => {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
-  const parseActivityString = (str: string): { description: string, items: { datetime: string, work: string }[] } => {
+  const parseActivityString = (str: string): { description: string[], items: { datetime: string, work: string }[] } => {
     const lines = str.split('\n');
-    let description = '';
+    let description = [];
     let items = [];
     let isDescription = true;
 
@@ -23,7 +23,7 @@ const LoadingTimeline: React.FC<LoadingTimelineProps> = ({ loadingData, shipment
           isDescription = false;
           i--; // Reprocess this line as an item
         } else {
-          description += lines[i] + '\n';
+          description.push(lines[i]);
         }
       } else {
         if (i + 1 < lines.length) {
@@ -36,7 +36,7 @@ const LoadingTimeline: React.FC<LoadingTimelineProps> = ({ loadingData, shipment
       }
     }
 
-    return { description: description.trim(), items };
+    return { description, items };
   };
 
   const toggleExpand = (index: number) => {
@@ -58,8 +58,12 @@ const LoadingTimeline: React.FC<LoadingTimelineProps> = ({ loadingData, shipment
 
             return (
               <div key={index} className="mb-6 border-b pb-4">
-                {description && (
-                  <p className="font-semibold text-base sm:text-lg mb-2 sm:mb-4">{description}</p>
+                {description.length > 0 && (
+                  <div className="font-semibold text-base sm:text-lg mb-2 sm:mb-4">
+                    {description.map((line, lineIndex) => (
+                      <p key={lineIndex}>{line}</p>
+                    ))}
+                  </div>
                 )}
                 <div className="relative pl-6 sm:pl-8">
                   {items.slice(0, isExpanded ? items.length : 1).map((subItem, subIndex) => (
