@@ -126,27 +126,25 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-12">
+        <footer className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-8">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
               <div className="text-center md:text-left">
-                <h2 className="text-2xl font-bold mb-4">Tianyi Decoration Construction</h2>
-                <p className="text-gray-300">Advanced Shipping Management Solutions</p>
+                <h2 className="text-xl md:text-2xl font-bold mb-2">Tianyi Decoration Construction</h2>
+                <p className="text-sm md:text-base text-gray-300">Advanced Shipping Management Solutions</p>
               </div>
-              <div className="text-center">
-              </div>
-              <div className="text-center md:text-right">
-                <h3 className="text-xl font-semibold mb-4">Connect With Us</h3>
-                <div className="flex justify-center md:justify-end space-x-4">
-                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Facebook size={24} /></a>
-                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Twitter size={24} /></a>
-                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Instagram size={24} /></a>
-                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Linkedin size={24} /></a>
+              <div className="flex flex-col items-center md:items-end">
+                <h3 className="text-lg md:text-xl font-semibold mb-2">Connect With Us</h3>
+                <div className="flex space-x-4">
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Facebook size={20} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Twitter size={20} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Instagram size={20} /></a>
+                  <a href="/contact" className="hover:text-blue-200 transition duration-300"><Linkedin size={20} /></a>
                 </div>
               </div>
             </div>
-            <div className="mt-8 pt-8 border-t border-blue-500 text-center">
-              <p className="text-sm text-gray-300">&copy; 2024 Tianyi Decoration Construction. All rights reserved.</p>
+            <div className="mt-6 pt-6 border-t border-blue-500 text-center">
+              <p className="text-xs md:text-sm text-gray-300">&copy; 2024 Tianyi Decoration Construction. All rights reserved.</p>
             </div>
           </div>
         </footer>
