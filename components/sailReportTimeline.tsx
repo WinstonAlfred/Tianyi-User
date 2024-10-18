@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-interface SailingReportProps {
-  sailingData: string[];
+interface sailingReportTimelineProps {
+  sailingReportData: string[];
   shipmentId: string;
 }
 
-const SailingReportTimeline: React.FC<SailingReportProps> = ({ sailingData, shipmentId }) => {
+const SailingReportTimeline: React.FC<sailingReportTimelineProps> = ({ sailingReportData, shipmentId }) => {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
-  const parseActivityString = (str: string): { description: string[], items: { datetime: string, location: string, activity: string }[] } => {
+  const parseActivityString = (str: string): { description: string[], items: { datetime: string, work: string }[] } => {
     const lines = str.split('\n');
     let description = [];
     let items = [];
@@ -26,13 +26,12 @@ const SailingReportTimeline: React.FC<SailingReportProps> = ({ sailingData, ship
           description.push(lines[i]);
         }
       } else {
-        if (i + 2 < lines.length) {
+        if (i + 1 < lines.length) {
           items.push({
             datetime: lines[i].replace('Datetime: ', ''),
-            location: lines[i + 1].replace('Location: ', ''),
-            activity: lines[i + 2].replace('Activity: ', '')
+            work: lines[i + 1].replace('Work: ', '')
           });
-          i += 2; // Skip the next two lines as we've already processed them
+          i++; // Skip the next line as we've already processed it
         }
       }
     }
@@ -49,11 +48,11 @@ const SailingReportTimeline: React.FC<SailingReportProps> = ({ sailingData, ship
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
-        Sailing Report for Shipment {shipmentId}
+        Sailing Report Timeline for Shipment {shipmentId}
       </h1>
       <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 max-w-2xl mx-auto">
         <div className="space-y-4">
-          {sailingData.map((item, index) => {
+          {sailingReportData.map((item, index) => {
             const { description, items } = parseActivityString(item);
             const isExpanded = expandedItems.includes(index);
 
@@ -75,8 +74,7 @@ const SailingReportTimeline: React.FC<SailingReportProps> = ({ sailingData, ship
                       )}
                       <div className="pl-6 sm:pl-8">
                         <p className="font-semibold text-sm sm:text-base">{subItem.datetime}</p>
-                        <p className="text-gray-600 text-sm sm:text-base mt-1">Location: {subItem.location}</p>
-                        <p className="text-gray-600 text-sm sm:text-base mt-1">Activity: {subItem.activity}</p>
+                        <p className="text-gray-600 text-sm sm:text-base mt-1">{subItem.work}</p>
                       </div>
                     </div>
                   ))}

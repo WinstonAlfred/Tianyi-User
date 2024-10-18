@@ -27,7 +27,7 @@ export default async function SailingReportPage({ params }: { params: { id: stri
 
     return (
       <div className="container mx-auto px-4 py-8">
-        <SailingReportTimeline sailingData={detail.Sailing_report} shipmentId={detail.id} />
+        <SailingReportTimeline sailingReportData={detail.Sailing_report} shipmentId={detail.id} />
         <div className="mt-8 text-center">
           <Link href="/shipment" className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
             Back to Shipments
