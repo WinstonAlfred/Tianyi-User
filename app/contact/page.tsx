@@ -54,9 +54,9 @@ const ContactPage = () => {
           
           <div className="space-y-4">
             {[
-              { icon: Mail, text: "winston.tianyi@gmail.com" },
-              { icon: Phone, text: "+62 81385697586" },
-              { icon: MapPin, text: "14460, GoldCoast Office, Jakarta Utara, Indonesia" },
+              { icon: Mail, text: "tianyi.dcc@gmail.com" },
+              { icon: Phone, text: "+62 823-8350-3138" },
+              { icon: MapPin, text: "Gold Coast Office Tower Eiffel Lantai 17 Unit" },
               { icon: Globe, text: "Visit our Company Profile Website", link: "https://tianyi.web.id/" }
             ].map((item, index) => (
               <div key={index} className="flex items-center space-x-3 text-gray-700">
