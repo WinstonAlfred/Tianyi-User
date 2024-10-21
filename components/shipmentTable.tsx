@@ -94,6 +94,8 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
         return `/sailingReport/${shipmentId}`;
       case 'unloading':
         return `/unloading/${shipmentId}`;
+      case 'finished':
+        return `/finish/${shipmentId}`;
       default:
         return null;
     }
