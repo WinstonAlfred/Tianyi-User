@@ -19,13 +19,17 @@ model Ship {
 }
 
 model Shipment {
-  id               String   @id @db.VarChar(225)
-  Status           String   @db.VarChar(225)
-  Ship_from        String   @db.VarChar(225)
-  Ship_destination String   @db.VarChar(225)
-  Product          String[] @db.VarChar(225)
+  id               String    @id @db.VarChar(225)
+  Status           String    @db.VarChar(225)
+  Ship_from        String    @db.VarChar(225)
+  Ship_destination String    @db.VarChar(225)
+  Product          String[]  @db.VarChar(225)
   Capacity         Int[]
-  Description      String[] @db.VarChar(225)
+  Description      String[]  @db.VarChar(225)
+  document_name    String?   @db.VarChar(225)
+  document_type    String?   @db.VarChar(100)
+  document_url     String?
+  uploaded_at      DateTime? @default(now())
 }
 
 model Detail {

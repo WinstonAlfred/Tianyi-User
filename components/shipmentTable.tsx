@@ -57,7 +57,10 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
       'Ship destination': shipment.Ship_destination,
       'Products': shipment.Product?.join(', '),
       'Capacities': shipment.Capacity?.join(', '),
-      'Descriptions': shipment.Description?.join(', ')
+      'Descriptions': shipment.Description?.join(', '),
+      'Document Name': shipment.document_name || 'N/A',
+      'Document Type': shipment.document_type || 'N/A',
+      'Uploaded At': shipment.uploaded_at ? new Date(shipment.uploaded_at).toLocaleString() : 'N/A'
     }]);
     
     XLSX.utils.book_append_sheet(workbook, worksheet, "Shipment");
@@ -74,7 +77,10 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
         'Ship destination': shipment.Ship_destination,
         'Products': shipment.Product?.join(', '),
         'Capacities': shipment.Capacity?.join(', '),
-        'Descriptions': shipment.Description?.join(', ')
+        'Descriptions': shipment.Description?.join(', '),
+        'Document Name': shipment.document_name || 'N/A',
+        'Document Type': shipment.document_type || 'N/A',
+        'Uploaded At': shipment.uploaded_at ? new Date(shipment.uploaded_at).toLocaleString() : 'N/A'
       }))
     );
     
@@ -153,6 +159,8 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
               <th className="py-3 px-4">Shipment from</th>
               <th className="py-3 px-4">Shipment destination</th>
               <th className="py-3 px-4">Products</th>
+              <th className="py-3 px-4">Document</th>
+              <th className="py-3 px-4">Uploaded At</th>
               <th className="py-3 px-4">Details</th>
               <th className="py-3 px-4">Export</th>
             </tr>
@@ -204,6 +212,28 @@ const ShipmentTable: React.FC<Props> = ({ shipments, error }) => {
                       </li>
                     ))}
                   </ul>
+                </td>
+                <td className="py-3 px-4">
+                  {shipment.document_url ? (
+                    <a
+                      href={shipment.document_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline flex items-center"
+                    >
+                      {shipment.document_name || 'View Document'}
+                      <FileDown size={16} className="ml-1" />
+                    </a>
+                  ) : (
+                    <span className="text-gray-400">No document</span>
+                  )}
+                </td>
+                <td className="py-3 px-4">
+                  {shipment.uploaded_at ? (
+                    new Date(shipment.uploaded_at).toLocaleDateString()
+                  ) : (
+                    'N/A'
+                  )}
                 </td>
                 <td className="py-3 px-4">
                   <Link href={`/details/${shipment.id}`} className="text-blue-600 hover:underline">
